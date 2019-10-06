@@ -1,4 +1,4 @@
-export class viewForm {
+export class ViewForm {
 
     public inputName: HTMLElement;
     public inputSurname: HTMLElement;
