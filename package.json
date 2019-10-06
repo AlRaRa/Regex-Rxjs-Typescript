@@ -7,7 +7,6 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --coverage",
-    
     "start": "webpack-dev-server --config ./webpack.dev.js",
     "build": "webpack --config ./webpack.prod.js",
     "error": "webpack --display-error-details"
@@ -46,6 +45,7 @@
     "alertifyjs": "^1.12.0",
     "dexie": "^2.0.4",
     "moment": "^2.24.0",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "rxjs": "^6.5.3"
   }
 }
