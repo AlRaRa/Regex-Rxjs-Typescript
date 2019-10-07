@@ -1,68 +1,97 @@
+import { RegexService } from "../services/regex.service";
+import { ViewForm } from "../view/form.view";
+import { fromEvent, Observable, Observer } from "rxjs";
+import { skip, map, combineLatest, tap, withLatestFrom } from "rxjs/operators";
 
-import {RegexService} from '../services/regex.service'
-import {ViewForm} from '../view/form.view'
-import { fromEvent, Observable,Observer } from 'rxjs';
-import { skip, map } from 'rxjs/operators';
+export class FormController {
+    constructor(private formView: ViewForm, private regexService: RegexService) {
+        this.init();
+    }
 
-export class FormController{
-        constructor(private formView: ViewForm, private regexService: RegexService){
-
-
-         this.checkInputName();
-        }
-
-
-      private checkInputName = () => {
-            
-            const imputName = this.formView.inputName
+    init = () => {
         
-            const name$ = fromEvent(imputName, 'input').pipe(
-                skip(3),
-                map(e  => (e.target as HTMLInputElement).value))
+        //this.isFormValid$;
+        //this.checkInputSurname()
+    };
+
+    private checkInputName$ = fromEvent(this.formView.inputName, "input").pipe(
+        skip(3),
+        map(event => (event.target as HTMLInputElement).value),
+        tap(e => this.validateName(e))
+    );
+
+    private checkInputSurname$ = fromEvent(
+        this.formView.inputSurname,
+        "input"
+    ).pipe(
+        skip(3),
+        map(event => (event.target as HTMLInputElement).value),
+        tap(e => this.validateSurname(e))
+    );
+
+    private checkInputEmail$ = fromEvent(this.formView.inputEmail, "input").pipe(
+        skip(3),
+        map(event => (event.target as HTMLInputElement).value),
+        tap(e => this.validateEmail(e))
+    );
+
+    private validateSurname(surname: string) {
+        this.regexService.validateSurname(surname)
+            ? this.changeColorSurnamegreen()
+            : this.changeColorSurnamered();
+    }
+    private changeColorSurnamegreen = () =>
+        (this.formView.inputSurname.className = "form-control is-valid");
+
+    private changeColorSurnamered = () =>
+        (this.formView.inputSurname.className = "form-control is-invalid");
+
+    private validateEmail(email: string) {
+        this.regexService.validateEmail(email)
+            ? this.changeColorEmailgreen()
+            : this.changeColorEmailreed();
+    }
+    private changeColorEmailgreen = () =>
+        (this.formView.inputEmail.className = "form-control is-valid");
+
+    private changeColorEmailreed = () =>
+        (this.formView.inputEmail.className = "form-control is-invalid");
+
+    private validateName(name: string) {
+        this.regexService.validateName(name)
+            ? this.changeColorgreen()
+            : this.changeColorreed();
+    }
+    
+    private changeColorgreen = () =>
+        (this.formView.inputName.className = "form-control is-valid");
+
+    private changeColorreed = () =>
+        (this.formView.inputName.className = "form-control is-invalid");
+
+    private submitButtons$ = fromEvent(this.formView.button, "click");
+
+
+    private isFormValid$ = this.submitButtons$
+        .pipe(
+            withLatestFrom(
+                this.checkInputName$,
+                this.checkInputSurname$,
+                this.checkInputEmail$
+                
+            ),
             
-            this.subscribers(name$);
-
-        } 
-
-        private subscribers=(observer)=>{
-            observer.subscribe(char => this.validateName(char))
-        }
-
-        private validateName(name: string){
+            map(data => {
+                const [click, ...formData] = data;
+                return formData;
+            }),
             
-             this.regexService.validateName(name) ? this.changeColorgreen() : this.changeColorreed();
-         }
+        )
+        .subscribe(console.log);
 
-          changeColorgreen = () => this.formView.inputName.className = 'form-control is-valid';
-          
-          changeColorreed = () => this.formView.inputName.className = 'form-control is-invalid';
-
-
-
-       /* public CachingForm = (): void => {
-            const form: HTMLElement =  this.view.getElementById('name') as HTMLElement;
-            const name$ = fromEvent(form, 'input').pipe(
-               skip(3),
-               map(e  => (e.target as HTMLInputElement).value))
-            
-               
-   
-            function validateName(name: string){
-                   const regex:RegExp =  /^[a-zA-Z ]+$/; 
-           
-                    regex.test(name) ? changeColorgreen() : changeColorreed();
-                }
-               
-             const prueba= "form-control is-valid"   
-   
-            function changeColorgreen(){ form.className = 'form-control is-valid'}
-            function changeColorreed(){ form.className = 'form-control is-invalid'}
-   
-            
-   
-            const subcription = name$.subscribe(char => validateName(char))
-       }*/
-   
-
-
+    /*private validateInputName = () =>{
+            const validateName$= this.checkInputName();
+            validateName$.map
+     }
+    */
 }
