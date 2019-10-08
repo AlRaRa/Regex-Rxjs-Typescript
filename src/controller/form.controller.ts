@@ -4,23 +4,20 @@ import { fromEvent, Observable, Observer } from "rxjs";
 import { skip, map, combineLatest, tap, withLatestFrom } from "rxjs/operators";
 
 export class FormController {
+
+    private countrySelected: String;
+
     constructor(private formView: ViewForm, private regexService: RegexService) {
-        this.init();
+
     }
 
-    init = () => {
-        
-        //this.isFormValid$;
-        //this.checkInputSurname()
-    };
-
-    private checkInputName$ = fromEvent(this.formView.inputName, "input").pipe(
+    private checkInputName$: Observable<string> = fromEvent(this.formView.inputName, "input").pipe(
         skip(3),
         map(event => (event.target as HTMLInputElement).value),
         tap(e => this.validateName(e))
     );
 
-    private checkInputSurname$ = fromEvent(
+    private checkInputSurname$:Observable<string> = fromEvent(
         this.formView.inputSurname,
         "input"
     ).pipe(
@@ -29,11 +26,40 @@ export class FormController {
         tap(e => this.validateSurname(e))
     );
 
-    private checkInputEmail$ = fromEvent(this.formView.inputEmail, "input").pipe(
+    private checkInputEmail$:Observable<string> = fromEvent(this.formView.inputEmail, "input").pipe(
         skip(3),
         map(event => (event.target as HTMLInputElement).value),
         tap(e => this.validateEmail(e))
     );
+
+    private checkRadioCountry$ = fromEvent(this.formView.radioButton, "click").pipe(
+        map(event => (event.target as HTMLInputElement).value),
+        tap(e => this.countrySelected = e),
+
+    ).subscribe();
+
+    private checkInputPostalCode$:Observable<string> = fromEvent(this.formView.inputPostalCode, "input").pipe(
+        skip(3),
+        map(event => (event.target as HTMLInputElement).value),
+        tap(e => this.countrySelected = e),
+
+    );
+
+    private checkLandLine$:Observable<string> = fromEvent(this.formView.inputLandline, "input").pipe(
+        skip(3),
+        map(event => (event.target as HTMLInputElement).value),
+        tap(e => this.countrySelected = e),
+
+    );
+
+    private checkMobilePhone$:Observable<string> = fromEvent(this.formView.inputMobilePhone, "input").pipe(
+        skip(3),
+        map(event => (event.target as HTMLInputElement).value),
+        tap(e => this.countrySelected = e),
+
+    );
+
+
 
     private validateSurname(surname: string) {
         this.regexService.validateSurname(surname)
@@ -62,7 +88,7 @@ export class FormController {
             ? this.changeColorgreen()
             : this.changeColorreed();
     }
-    
+
     private changeColorgreen = () =>
         (this.formView.inputName.className = "form-control is-valid");
 
@@ -77,15 +103,18 @@ export class FormController {
             withLatestFrom(
                 this.checkInputName$,
                 this.checkInputSurname$,
-                this.checkInputEmail$
-                
+                this.checkInputEmail$,
+                this.checkLandLine$,
+                this.checkMobilePhone$,
+                this.checkInputPostalCode$
+
             ),
-            
+
             map(data => {
                 const [click, ...formData] = data;
                 return formData;
             }),
-            
+
         )
         .subscribe(console.log);
 

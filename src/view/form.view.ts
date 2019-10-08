@@ -9,6 +9,7 @@ export class ViewForm {
     public inputMobilePhone: HTMLInputElement;
     public allForm: HTMLElement;
     public button: HTMLButtonElement;
+    public radioButton: HTMLInputElement;
 
   constructor(private view: Document) {
     this.init();
@@ -28,6 +29,7 @@ export class ViewForm {
         this.getInputMobilePhone();
         this.getForm();
         this.getButton();
+        this.getRadioButton();
     }
 
     private getInputName = () =>
@@ -52,4 +54,7 @@ export class ViewForm {
     (this.allForm = this.view.getElementById("form") as HTMLInputElement);
 
     private getButton = () => (this.button= this.view.getElementById("button")as HTMLButtonElement);
+
+    private getRadioButton = () =>
+    (this.radioButton = this.view.getElementById("countryValue") as HTMLInputElement )
 }

@@ -7,7 +7,9 @@ import {RegexService} from './services/regex.service'
 const view = window.document;
 
 
-const formController = new FormController( new ViewForm(view), new RegexService())
+const formController = new FormController( new ViewForm(view), new RegexService());
+
+
 
 /*const rafa= validatePostalCode("3333", "USA")
 console.log(rafa)
