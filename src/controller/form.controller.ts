@@ -32,7 +32,7 @@ export class FormController {
 
     private checkRadioCountry$   = fromEvent(this.formView.radioButton, "click").pipe(
         map(event => (event.target as HTMLInputElement).value),
-        tap(e => this.countrySelected = e),
+        map(e => this.countrySelected = e),
 
     ).subscribe();
 
