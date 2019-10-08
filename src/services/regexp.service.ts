@@ -1,6 +1,7 @@
 import REGEXP from "../constant/regex.constant";
 
-export class RegexService {
+export class RegexpService {
+
     public validateName = (name: string): boolean => REGEXP.NAME.test(name);
 
     public validateSurname = (surname: string): boolean =>
@@ -14,17 +15,17 @@ export class RegexService {
     public validatePostalCodeSpain = (postalCode: string): boolean =>
         REGEXP.CPSPAIN.test(postalCode);
 
-    private validateLandlineSpain=(landline:string):boolean=>
+    private validateLandlineSpain = (landline: string): boolean =>
         REGEXP.LANDLINESPAIN.test(landline);
-        
-    private validateLandlineUsa=(landline:string):boolean=>
+
+    private validateLandlineUsa = (landline: string): boolean =>
         REGEXP.LANDLINEUSA.test(landline);
 
-    private validatePhoneNumberSpain=(phoneNumber:string):boolean=>
+    private validatePhoneNumberSpain = (phoneNumber: string): boolean =>
         REGEXP.PHONENUMBERSPAIN.test(phoneNumber);
-        
-    private validatePostalphonenumberUsa=(phoneNumber:string):boolean=>
-        REGEXP.PHONENUMBERUSA.test(phoneNumber)
+
+    private validatePostalphonenumberUsa = (phoneNumber: string): boolean =>
+        REGEXP.PHONENUMBERUSA.test(phoneNumber);
 
     public validatePostalCode = (country: string, postalcode: string) =>
         this.validateCountry(country)
@@ -39,19 +40,11 @@ export class RegexService {
     public validatePhoneNumber = (mobilePhone: string, country: string) =>
         this.validateCountry(country)
             ? this.validatePhoneNumberSpain(mobilePhone)
-            : this.validatePostalphonenumberUsa(mobilePhone); 
+            : this.validatePostalphonenumberUsa(mobilePhone);
 
     //private validatePhoneNumberUsa = (phoneNumber:string):boolean => REGEXP.CPUSA.test(phoneNumber);
 
     // private validatePhoneNumberSpain = (phoneNumber:string):boolean => REGEXP.PHONESPAIN.test(phoneNumber);
 
-    private validateCountry = (country: string) => country == "SPAIN";
-
-    /* private createCountryCp = (country:string):string=> "CP".concat(country);
-  
-  
-      private createCountryLandline = (landline:string):string=> "LANDLINE".concat(landline);
-      
-  
-      private createCountryPhone= (country:string):string=> "PHONE".concat(country)*/
+    private validateCountry = (country: string) => country == "spain";
 }

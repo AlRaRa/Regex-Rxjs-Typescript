@@ -48,7 +48,7 @@ export class ViewForm {
     (this.inputLandline = this.view.getElementById("landline") as HTMLInputElement);
 
   private getInputMobilePhone = () =>
-    (this.inputMobilePhone = this.view.getElementById("mobilePhone") as HTMLInputElement);
+    (this.inputMobilePhone = this.view.getElementById("phoneNumber") as HTMLInputElement);
 
   private getForm = () =>
     (this.allForm = this.view.getElementById("form") as HTMLInputElement);
@@ -60,11 +60,10 @@ export class ViewForm {
 
 
   public changeColorgreen = (target:string) =>
-    //(this.inputName.className = "form-control is-valid");
     this.view.getElementById(target).className= "form-control is-valid"
 
-  public changeColorRed = () =>
-    (this.inputName.className = "form-control is-invalid");
+  public changeColorRed = (target:string) =>
+    this.view.getElementById(target).className= "form-control is-invalid";
 
   
 
