@@ -4,10 +4,10 @@ import {FormController} from './controller/form.controller'
 import {RegexService} from './services/regex.service'
 
 
-const view = window.document;
+const view: Document = window.document;
 
 
-const formController = new FormController( new ViewForm(view), new RegexService());
+const formController: FormController = new FormController( new ViewForm(view), new RegexService());
 
 
 
